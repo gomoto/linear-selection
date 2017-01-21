@@ -1,6 +1,6 @@
 {
   "name": "linear-selection",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Selection logic for one-dimensional data",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
