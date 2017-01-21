@@ -1,7 +1,7 @@
 {
   "name": "linear-selection",
   "version": "0.0.0",
-  "description": "",
+  "description": "Selection logic for one-dimensional data",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -25,5 +25,12 @@
     "ts-node": "^2.0.0",
     "typescript": "^2.1.5"
   },
-  "private": true
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomoto/linear-selection.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gomoto/linear-selection/issues"
+  },
+  "author": "Ryan Gomoto"
 }
