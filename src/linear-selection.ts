@@ -62,7 +62,7 @@ export default class LinearSelection {
    * @param {number} index
    * @param {TouchOptions} options
    */
-  public touch(index: number, options: TouchOptions): void {
+  public touch(index: number, options = {} as TouchOptions): void {
     if (options.shift) {
       // shift-ctrl-click
       if (options.ctrl) {
@@ -170,7 +170,7 @@ export default class LinearSelection {
 
   private _rejectPending(): void {
     this._pendingPositions.forEach((pendingPosition) => {
-      this._selection[pendingPosition] = false;
+      this._selection[pendingPosition] = !this._selection[pendingPosition];
     });
     this._pendingPositions = [];
   }
