@@ -45,19 +45,6 @@ export default class LinearSelection {
 
 
   /**
-   * Insert items into the selection.
-   * @param {number} count
-   * @param {number} start
-   * @param {boolean} selected true if already selected at time of insertion
-   */
-  public insert(count: number, start: number, selected: boolean): void {
-    // const insertion = new Array<boolean>(count);
-    // LinearSelection.fillArray(insertion, !!selected);
-    // this._selection.splice(start, 0, ...insertion);
-  }
-
-
-  /**
    * Touch a position.
    * @param {number} index
    * @param {TouchOptions} options
@@ -192,18 +179,6 @@ export default class LinearSelection {
       this.isSelected(index) ? this._unselect(index) : this._select(index);
     });
     this._pendingPositions = [];
-  }
-
-
-  /**
-   * Fill the given array with true or false.
-   * @param {Array<boolean>} array
-   * @param {boolean} value
-   */
-  private static fillArray(array: Array<boolean>, value: boolean): void {
-    for (let i = 0; i < array.length; i++) {
-      array[i] = value;
-    }
   }
 
 }
