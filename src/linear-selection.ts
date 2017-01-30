@@ -77,7 +77,7 @@ export default class LinearSelection {
    * Get smallest index selected.
    * @return {number} or null if selection is empty
    */
-  public min(): number {
+  public get min(): number {
     return this._selections.min();
   }
 
@@ -86,7 +86,7 @@ export default class LinearSelection {
    * Get largest index selected.
    * @return {number} or null if selection is empty
    */
-  public max(): number {
+  public get max(): number {
     return this._selections.max();
   }
 

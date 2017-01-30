@@ -207,7 +207,7 @@ test('shift-ctrl-click should not unselect a position that is temporarily unsele
 
 test('min() should return null if selection is empty', (assert) => {
   const selection = new LinearSelection();
-  assert.equal(selection.min(), null);
+  assert.equal(selection.min, null);
   assert.end();
 });
 
@@ -215,7 +215,7 @@ test('min() should return smallest index selected', (assert) => {
   const selection = new LinearSelection();
   selection.touch(27);
   selection.touch(2, {ctrl: true});
-  assert.equal(selection.min(), 2);
+  assert.equal(selection.min, 2);
   assert.end();
 });
 
@@ -223,7 +223,7 @@ test('min() should return smallest index selected', (assert) => {
 
 test('max() should return null if selection is empty', (assert) => {
   const selection = new LinearSelection();
-  assert.equal(selection.max(), null);
+  assert.equal(selection.max, null);
   assert.end();
 });
 
@@ -231,7 +231,7 @@ test('max() should return largest index selected', (assert) => {
   const selection = new LinearSelection();
   selection.touch(27);
   selection.touch(2, {ctrl: true});
-  assert.equal(selection.max(), 27);
+  assert.equal(selection.max, 27);
   assert.end();
 });
 
