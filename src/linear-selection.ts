@@ -107,7 +107,7 @@ export default class LinearSelection {
    * Unselect all positions, except the specified exception.
    * @return {number} number of positions that were selected
    */
-  private unselectAll(exception?: number): number {
+  private _unselectAll(exception?: number): number {
     // set aside exception before measuring size
     const exceptionExisted = this._unselect(exception);
     const size = this._selections.size;
@@ -125,7 +125,7 @@ export default class LinearSelection {
 
     // In exclusive mode, turn off all nodes except this one.
     // In non-exclusive mode, node does not worry about other nodes around it.
-    const isSurrounded = exclusive && this.unselectAll(index) > 0;
+    const isSurrounded = exclusive && this._unselectAll(index) > 0;
 
     if (isSurrounded) {
       // turn on
@@ -149,7 +149,7 @@ export default class LinearSelection {
     this._rejectPending();
 
     if (exclusive) {
-      this.unselectAll();
+      this._unselectAll();
     }
 
     // Turn on/off (depending on touchType) all positions between min and max, inclusive.
