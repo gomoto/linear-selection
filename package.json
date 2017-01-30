@@ -32,5 +32,9 @@
   "bugs": {
     "url": "https://github.com/gomoto/linear-selection/issues"
   },
-  "author": "Ryan Gomoto"
+  "author": "Ryan Gomoto",
+  "dependencies": {
+    "@types/bintrees": "^1.0.0",
+    "bintrees": "^1.0.1"
+  }
 }

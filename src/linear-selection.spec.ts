@@ -2,7 +2,7 @@ import * as test from 'tape';
 import LinearSelection from './linear-selection';
 
 test('selection should initialize with all positions unselected', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection();
   assert.equal(selection.isSelected(0), false);
   assert.equal(selection.isSelected(1), false);
   assert.equal(selection.isSelected(2), false);
@@ -12,7 +12,7 @@ test('selection should initialize with all positions unselected', (assert) => {
 });
 
 test('simple click should select a position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection();
   selection.touch(2);
   assert.equal(selection.isSelected(0), false);
   assert.equal(selection.isSelected(1), false);
@@ -23,7 +23,7 @@ test('simple click should select a position', (assert) => {
 });
 
 test('simple click again should unselect a position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(2);
   selection.touch(2);
   assert.equal(selection.isSelected(0), false);
@@ -35,7 +35,7 @@ test('simple click again should unselect a position', (assert) => {
 });
 
 test('ctrl-click should select a position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(2, {ctrl: true});
   assert.equal(selection.isSelected(0), false);
   assert.equal(selection.isSelected(1), false);
@@ -46,7 +46,7 @@ test('ctrl-click should select a position', (assert) => {
 });
 
 test('ctrl-click again should unselect a position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(2, {ctrl: true});
   selection.touch(2, {ctrl: true});
   assert.equal(selection.isSelected(0), false);
@@ -58,7 +58,7 @@ test('ctrl-click again should unselect a position', (assert) => {
 });
 
 test('ctrl-click another position should NOT unselect a position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(2, {ctrl: true});
   selection.touch(3, {ctrl: true});
   assert.equal(selection.isSelected(0), false);
@@ -70,7 +70,7 @@ test('ctrl-click another position should NOT unselect a position', (assert) => {
 });
 
 test('shift-click should select a range of positions', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(2, {shift: true});
   assert.equal(selection.isSelected(0), true);
@@ -82,7 +82,7 @@ test('shift-click should select a range of positions', (assert) => {
 });
 
 test('shift-click again should select a range of positions', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(2, {shift: true});
   assert.equal(selection.isSelected(0), true);
@@ -94,7 +94,7 @@ test('shift-click again should select a range of positions', (assert) => {
 });
 
 test('shift-click yet again should adjust a range of positions', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(2, {shift: true});
   selection.touch(1, {shift: true});
@@ -107,7 +107,7 @@ test('shift-click yet again should adjust a range of positions', (assert) => {
 });
 
 test('shift-click should not select any position on first touch', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0, {shift: true});
   assert.equal(selection.isSelected(0), false);
   assert.equal(selection.isSelected(1), false);
@@ -118,7 +118,7 @@ test('shift-click should not select any position on first touch', (assert) => {
 });
 
 test('shift-ctrl-click should select multiple ranges of positions', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(1, {shift: true});
   selection.touch(3, {ctrl: true});
@@ -132,7 +132,7 @@ test('shift-ctrl-click should select multiple ranges of positions', (assert) => 
 });
 
 test('shift-ctrl-click over a selected position should not unselect that position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(2);
   selection.touch(0, {ctrl: true});
   selection.touch(4, {shift: true, ctrl: true});
@@ -145,7 +145,7 @@ test('shift-ctrl-click over a selected position should not unselect that positio
 });
 
 test('shift-ctrl-click temporarily over a selected position should not unselect that position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(2);
   selection.touch(0, {ctrl: true});
   selection.touch(4, {shift: true, ctrl: true});
@@ -159,7 +159,7 @@ test('shift-ctrl-click temporarily over a selected position should not unselect 
 });
 
 test('shift-ctrl-click should unselect a range of positions when starting another range at a selected position', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(4, {shift: true});
   selection.touch(2, {ctrl: true});
@@ -173,7 +173,7 @@ test('shift-ctrl-click should unselect a range of positions when starting anothe
 });
 
 test('shift-ctrl-click should unselect a range of positions even when ending beyond the range', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(2, {shift: true});
   selection.touch(1, {ctrl: true});
@@ -187,7 +187,7 @@ test('shift-ctrl-click should unselect a range of positions even when ending bey
 });
 
 test('shift-ctrl-click should not unselect a position that is temporarily unselected', (assert) => {
-  const selection = new LinearSelection(5);
+  const selection = new LinearSelection;
   selection.touch(0);
   selection.touch(2, {shift: true});
   selection.touch(1, {ctrl: true});
