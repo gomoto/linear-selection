@@ -1,9 +1,12 @@
+import { RBTree } from 'bintrees';
+
+
 export default class LinearSelection {
 
   /**
-   * List tracking which positions are selected.
+   * Track which positions are selected.
    */
-  private _selection: boolean[];
+  private _selections: RBTree<number>;
 
 
   /**
@@ -25,35 +28,19 @@ export default class LinearSelection {
   private _pendingPositions: number[];
 
 
-  constructor(size = 0) {
-    this.setSize(size);
+  constructor() {
+    this.reset();
   }
 
 
   /**
-   * Set selection size.
-   * @param {number} size
+   * Reset state of this.
    */
-  public setSize(size: number): void {
-    // create an array filled with false
-    this._selection = new Array<boolean>(size);
-    LinearSelection.fillArray(this._selection, false);
+  public reset(): void {
+    this._selections = new RBTree<number>((a: number, b: number) => a - b);
     this._anchor = null;
     this._touchMode = true;
     this._pendingPositions = [];
-  }
-
-
-  /**
-   * Insert items into the selection.
-   * @param {number} count
-   * @param {number} start
-   * @param {boolean} selected true if already selected at time of insertion
-   */
-  public insert(count: number, start: number, selected: boolean): void {
-    const insertion = new Array<boolean>(count);
-    LinearSelection.fillArray(insertion, !!selected);
-    this._selection.splice(start, 0, ...insertion);
   }
 
 
@@ -87,12 +74,59 @@ export default class LinearSelection {
 
 
   /**
+   * Get smallest index selected.
+   * @return {number} or null if selection is empty
+   */
+  public get min(): number {
+    return this._selections.min();
+  }
+
+
+  /**
+   * Get largest index selected.
+   * @return {number} or null if selection is empty
+   */
+  public get max(): number {
+    return this._selections.max();
+  }
+
+
+  /**
+   * How many positions are selected?
+   * @return {number}
+   */
+  public get size(): number {
+    return this._selections.size;
+  }
+
+
+  /**
    * Is a position selected?
    * @param {number} index
    * @return {boolean}
    */
   public isSelected(index: number): boolean {
-    return this._selection[index];
+    return this._selections.find(index) !== null;
+  }
+
+
+  /**
+   * Select a position.
+   * @param {number} index
+   * @return {boolean} false if already selected
+   */
+  private _select(index: number): boolean {
+    return this._selections.insert(index);
+  }
+
+
+  /**
+   * Unselect a position.
+   * @param {number} index
+   * @return {boolean} false if not yet selected
+   */
+  private _unselect(index: number): boolean {
+    return this._selections.remove(index);
   }
 
 
@@ -100,16 +134,16 @@ export default class LinearSelection {
    * Unselect all positions, except the specified exception.
    * @return {number} number of positions that were selected
    */
-  private unselectAll(exception?: number): number {
-    let sum = 0;
-    this._selection.forEach((isSelected, index, array) => {
-      if (index === exception) return;
-      if (isSelected) {
-        sum++;
-        array[index] = false;
-      }
-    });
-    return sum;
+  private _unselectAll(exception?: number): number {
+    // set aside exception before measuring size
+    const exceptionExisted = this._unselect(exception);
+    const size = this._selections.size;
+    this._selections.clear();
+    // restore exception
+    if (exceptionExisted) {
+      this._select(exception);
+    }
+    return size;
   }
 
 
@@ -118,17 +152,16 @@ export default class LinearSelection {
 
     // In exclusive mode, turn off all nodes except this one.
     // In non-exclusive mode, node does not worry about other nodes around it.
-    const isSurrounded = exclusive && this.unselectAll(index) > 0;
+    const isSurrounded = exclusive && this._unselectAll(index) > 0;
 
     if (isSurrounded) {
       // turn on
-      this._selection[index] = true;
+      this._select(index);
       this._touchMode = true;
     } else {
       // toggle
-      const isOn = this._selection[index];
-      this._selection[index] = !isOn;
-      this._touchMode = !isOn;
+      this.isSelected(index) ? this._unselect(index) : this._select(index);
+      this._touchMode = this.isSelected(index);
     }
 
     this._anchor = index;
@@ -143,18 +176,18 @@ export default class LinearSelection {
     this._rejectPending();
 
     if (exclusive) {
-      this.unselectAll();
+      this._unselectAll();
     }
 
     // Turn on/off (depending on touchType) all positions between min and max, inclusive.
     // Pending positions are those that get inverted.
     const minIndex = Math.min(this._anchor, index);
     const maxIndex = Math.max(this._anchor, index);
-    for (let i = minIndex; i <= maxIndex; i++) {
-      if (this._selection[i] !== this._touchMode) {
+    for (let index = minIndex; index <= maxIndex; index++) {
+      if (this.isSelected(index) !== this._touchMode) {
         // inversion
-        this._pendingPositions.push(i);
-        this._selection[i] = this._touchMode;
+        this._pendingPositions.push(index);
+        this._touchMode ? this._select(index) : this._unselect(index);
       }
     }
   }
@@ -169,22 +202,10 @@ export default class LinearSelection {
 
 
   private _rejectPending(): void {
-    this._pendingPositions.forEach((pendingPosition) => {
-      this._selection[pendingPosition] = !this._selection[pendingPosition];
+    this._pendingPositions.forEach((index) => {
+      this.isSelected(index) ? this._unselect(index) : this._select(index);
     });
     this._pendingPositions = [];
-  }
-
-
-  /**
-   * Fill the given array with true or false.
-   * @param {Array<boolean>} array
-   * @param {boolean} value
-   */
-  private static fillArray(array: Array<boolean>, value: boolean): void {
-    for (let i = 0; i < array.length; i++) {
-      array[i] = value;
-    }
   }
 
 }
