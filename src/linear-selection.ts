@@ -74,6 +74,24 @@ export default class LinearSelection {
 
 
   /**
+   * Get smallest index selected.
+   * @return {number} or null if selection is empty
+   */
+  public min(): number {
+    return this._selections.min();
+  }
+
+
+  /**
+   * Get largest index selected.
+   * @return {number} or null if selection is empty
+   */
+  public max(): number {
+    return this._selections.max();
+  }
+
+
+  /**
    * Is a position selected?
    * @param {number} index
    * @return {boolean}
