@@ -234,3 +234,15 @@ test('max() should return largest index selected', (assert) => {
   assert.equal(selection.max(), 27);
   assert.end();
 });
+
+// size
+
+test('size should return number of selected positions', (assert) => {
+  const selection = new LinearSelection();
+  assert.equal(selection.size, 0);
+  selection.touch(41);
+  assert.equal(selection.size, 1);
+  selection.touch(50, {shift: true});
+  assert.equal(selection.size, 10);
+  assert.end();
+});

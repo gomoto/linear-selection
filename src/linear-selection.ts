@@ -92,6 +92,15 @@ export default class LinearSelection {
 
 
   /**
+   * How many positions are selected?
+   * @return {number}
+   */
+  public get size(): number {
+    return this._selections.size;
+  }
+
+
+  /**
    * Is a position selected?
    * @param {number} index
    * @return {boolean}
