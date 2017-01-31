@@ -51,7 +51,7 @@ export default class LinearSelection {
   public set(indexes: number[]): void {
     this.reset();
     indexes.forEach((indexes) => {
-      this._select(indexes);
+      this.select(indexes);
     });
   }
 
@@ -127,7 +127,7 @@ export default class LinearSelection {
    * @param {number} index
    * @return {boolean} false if already selected
    */
-  private _select(index: number): boolean {
+  public select(index: number): boolean {
     return this._selections.insert(index);
   }
 
@@ -137,7 +137,7 @@ export default class LinearSelection {
    * @param {number} index
    * @return {boolean} false if not yet selected
    */
-  private _unselect(index: number): boolean {
+  public unselect(index: number): boolean {
     return this._selections.remove(index);
   }
 
@@ -148,12 +148,12 @@ export default class LinearSelection {
    */
   private _unselectAll(exception?: number): number {
     // set aside exception before measuring size
-    const exceptionExisted = this._unselect(exception);
+    const exceptionExisted = this.unselect(exception);
     const size = this._selections.size;
     this._selections.clear();
     // restore exception
     if (exceptionExisted) {
-      this._select(exception);
+      this.select(exception);
     }
     return size;
   }
@@ -168,11 +168,11 @@ export default class LinearSelection {
 
     if (isSurrounded) {
       // turn on
-      this._select(index);
+      this.select(index);
       this._touchMode = true;
     } else {
       // toggle
-      this.isSelected(index) ? this._unselect(index) : this._select(index);
+      this.isSelected(index) ? this.unselect(index) : this.select(index);
       this._touchMode = this.isSelected(index);
     }
 
@@ -199,7 +199,7 @@ export default class LinearSelection {
       if (this.isSelected(index) !== this._touchMode) {
         // inversion
         this._pendingPositions.push(index);
-        this._touchMode ? this._select(index) : this._unselect(index);
+        this._touchMode ? this.select(index) : this.unselect(index);
       }
     }
   }
@@ -215,7 +215,7 @@ export default class LinearSelection {
 
   private _rejectPending(): void {
     this._pendingPositions.forEach((index) => {
-      this.isSelected(index) ? this._unselect(index) : this._select(index);
+      this.isSelected(index) ? this.unselect(index) : this.select(index);
     });
     this._pendingPositions = [];
   }
