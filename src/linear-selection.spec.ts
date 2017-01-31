@@ -259,3 +259,13 @@ test('size should return number of selected positions', (assert) => {
   assert.equal(selection.size, 10);
   assert.end();
 });
+
+// reset()
+
+test('reset() should unselect all positions', (assert) => {
+  const selection = new LinearSelection();
+  selection.touch(41);
+  selection.reset();
+  assert.equal(selection.size, 0);
+  assert.end();
+});
