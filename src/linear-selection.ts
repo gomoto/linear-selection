@@ -142,6 +142,20 @@ export default class LinearSelection {
   }
 
 
+  public increment(increase: number): void {
+    const oldSelections = this._selections;
+    this.reset();
+    oldSelections.each((index: any /*number*/) => {
+      this._selections.insert(index + increase);
+    });
+  }
+
+
+  public decrement(decrease: number): void {
+    this.increment(-decrease);
+  }
+
+
   /**
    * Unselect all positions, except the specified exception.
    * @return {number} number of positions that were selected

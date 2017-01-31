@@ -281,3 +281,31 @@ test('reset() should unselect all positions', (assert) => {
   assert.equal(selection.size, 0);
   assert.end();
 });
+
+// increment()
+
+test('increment() should increase selected positions by a given amount', (assert) => {
+  const selection = new LinearSelection([0, 1, 3]);
+  selection.increment(2);
+  assert.equal(selection.isSelected(0), false);
+  assert.equal(selection.isSelected(1), false);
+  assert.equal(selection.isSelected(2), true);
+  assert.equal(selection.isSelected(3), true);
+  assert.equal(selection.isSelected(4), false);
+  assert.equal(selection.isSelected(5), true);
+  assert.end();
+});
+
+// decrement()
+
+test('decrement() should decrease selected positions by a given amount', (assert) => {
+  const selection = new LinearSelection([0, 1, 3]);
+  selection.decrement(2);
+  assert.equal(selection.isSelected(-2), true);
+  assert.equal(selection.isSelected(-1), true);
+  assert.equal(selection.isSelected(0), false);
+  assert.equal(selection.isSelected(1), true);
+  assert.equal(selection.isSelected(2), false);
+  assert.equal(selection.isSelected(3), false);
+  assert.end();
+});
