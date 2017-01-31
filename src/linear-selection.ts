@@ -142,17 +142,43 @@ export default class LinearSelection {
   }
 
 
-  public increment(increase: number): void {
-    const oldSelections = this._selections;
-    this.reset();
-    oldSelections.each((index: any /*number*/) => {
+  /**
+   * To increment only part of the selection, specify a min and max.
+   * @param {number} increase
+   * @param {number} min
+   * @param {number} max
+   */
+  public increment(increase: number, min = this._selections.min(), max = this._selections.max()): void {
+    // iterate backwards for proper overwriting behavior
+    const iterator = this._selections.findIter(max);
+    // negative number nodes might come after positive nodes and before null node
+    while(iterator.data() !== null && min <= iterator.data() && iterator.data() <= max) {
+      const index = iterator.data();
+      // move iterator cursor before trying to remove/insert
+      iterator.prev();
+      this._selections.remove(index);
       this._selections.insert(index + increase);
-    });
+    }
   }
 
 
-  public decrement(decrease: number): void {
-    this.increment(-decrease);
+  /**
+   * To decrement only part of the selection, specify a min and max.
+   * @param {number} decrease
+   * @param {number} min
+   * @param {number} max
+   */
+  public decrement(decrease: number, min = this._selections.min(), max = this._selections.max()): void {
+    // iterate forwards for proper overwriting behavior
+    const iterator = this._selections.findIter(min);
+    // negative number nodes might come after positive nodes and before null node
+    while(iterator.data() !== null && min <= iterator.data() && iterator.data() <= max) {
+      const index = iterator.data();
+      // move iterator cursor before trying to remove/insert
+      iterator.next();
+      this._selections.remove(index);
+      this._selections.insert(index - decrease);
+    }
   }
 
 
