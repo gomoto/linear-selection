@@ -3,8 +3,9 @@ export default class LinearSelection {
     private _anchor;
     private _touchMode;
     private _pendingPositions;
-    constructor();
+    constructor(indexes?: number[]);
     reset(): void;
+    set(indexes: number[]): void;
     touch(index: number, options?: TouchOptions): void;
     readonly min: number;
     readonly max: number;
