@@ -45,6 +45,18 @@ export default class LinearSelection {
 
 
   /**
+   * Declare which positions should be selected.
+   * @param {number[]} indexes
+   */
+  public set(indexes: number[]): void {
+    this.reset();
+    indexes.forEach((indexes) => {
+      this._select(indexes);
+    });
+  }
+
+
+  /**
    * Touch a position.
    * @param {number} index
    * @param {TouchOptions} options
