@@ -13,8 +13,8 @@ export default class LinearSelection {
     isSelected(index: number): boolean;
     select(index: number): boolean;
     unselect(index: number): boolean;
-    increment(increase: number): void;
-    decrement(decrease: number): void;
+    increment(increase: number, min?: number, max?: number): void;
+    decrement(decrease: number, min?: number, max?: number): void;
     private _unselectAll(exception?);
     private _click(index, exclusive);
     private _shiftClick(index, exclusive);
