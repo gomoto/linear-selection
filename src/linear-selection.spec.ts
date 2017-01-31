@@ -284,7 +284,7 @@ test('reset() should unselect all positions', (assert) => {
 
 // increment()
 
-test('increment() should increase selected positions by a given amount', (assert) => {
+test('increment() should increase all selected positions by a given amount', (assert) => {
   const selection = new LinearSelection([0, 1, 3]);
   selection.increment(2);
   assert.equal(selection.isSelected(0), false);
@@ -296,9 +296,21 @@ test('increment() should increase selected positions by a given amount', (assert
   assert.end();
 });
 
+test('increment() should increase some selected positions by a given amount', (assert) => {
+  const selection = new LinearSelection([0, 1, 3, 4]);
+  selection.increment(2, 0, 1);
+  assert.equal(selection.isSelected(0), false);
+  assert.equal(selection.isSelected(1), false);
+  assert.equal(selection.isSelected(2), true);
+  assert.equal(selection.isSelected(3), true);
+  assert.equal(selection.isSelected(4), true);
+  assert.equal(selection.isSelected(5), false);
+  assert.end();
+});
+
 // decrement()
 
-test('decrement() should decrease selected positions by a given amount', (assert) => {
+test('decrement() should decrease all selected positions by a given amount', (assert) => {
   const selection = new LinearSelection([0, 1, 3]);
   selection.decrement(2);
   assert.equal(selection.isSelected(-2), true);
@@ -307,5 +319,18 @@ test('decrement() should decrease selected positions by a given amount', (assert
   assert.equal(selection.isSelected(1), true);
   assert.equal(selection.isSelected(2), false);
   assert.equal(selection.isSelected(3), false);
+  assert.end();
+});
+
+test('decrement() should decrease some selected positions by a given amount', (assert) => {
+  const selection = new LinearSelection([0, 1, 3, 4]);
+  selection.decrement(2, 0, 1);
+  assert.equal(selection.isSelected(-2), true);
+  assert.equal(selection.isSelected(-1), true);
+  assert.equal(selection.isSelected(0), false);
+  assert.equal(selection.isSelected(1), false);
+  assert.equal(selection.isSelected(2), false);
+  assert.equal(selection.isSelected(3), true);
+  assert.equal(selection.isSelected(4), true);
   assert.end();
 });
