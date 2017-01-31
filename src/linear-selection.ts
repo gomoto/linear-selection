@@ -28,8 +28,8 @@ export default class LinearSelection {
   private _pendingPositions: number[];
 
 
-  constructor() {
-    this.reset();
+  constructor(indexes = [] as number[]) {
+    this.set(indexes);
   }
 
 

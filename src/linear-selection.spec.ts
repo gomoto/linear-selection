@@ -1,12 +1,24 @@
 import * as test from 'tape';
 import LinearSelection from './linear-selection';
 
+// constructor()
+
 test('selection should initialize with all positions unselected', (assert) => {
   const selection = new LinearSelection();
   assert.equal(selection.isSelected(0), false);
   assert.equal(selection.isSelected(1), false);
   assert.equal(selection.isSelected(2), false);
   assert.equal(selection.isSelected(3), false);
+  assert.equal(selection.isSelected(4), false);
+  assert.end();
+});
+
+test('selection can initialize from an array of numbers', (assert) => {
+  const selection = new LinearSelection([0, 1, 3]);
+  assert.equal(selection.isSelected(0), true);
+  assert.equal(selection.isSelected(1), true);
+  assert.equal(selection.isSelected(2), false);
+  assert.equal(selection.isSelected(3), true);
   assert.equal(selection.isSelected(4), false);
   assert.end();
 });
