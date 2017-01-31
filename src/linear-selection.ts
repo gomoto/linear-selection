@@ -28,8 +28,8 @@ export default class LinearSelection {
   private _pendingPositions: number[];
 
 
-  constructor() {
-    this.reset();
+  constructor(indexes = [] as number[]) {
+    this.set(indexes);
   }
 
 
@@ -41,6 +41,18 @@ export default class LinearSelection {
     this._anchor = null;
     this._touchMode = true;
     this._pendingPositions = [];
+  }
+
+
+  /**
+   * Declare which positions should be selected.
+   * @param {number[]} indexes
+   */
+  public set(indexes: number[]): void {
+    this.reset();
+    indexes.forEach((indexes) => {
+      this._select(indexes);
+    });
   }
 
 
