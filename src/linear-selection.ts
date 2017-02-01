@@ -37,7 +37,7 @@ export default class LinearSelection {
    * Reset state of this.
    */
   public reset(): void {
-    this._selections = new RBTree<number>((a: number, b: number) => a - b);
+    this._selections = this._createSelections();
     this._anchor = null;
     this._touchMode = true;
     this._pendingPositions = [];
@@ -150,15 +150,12 @@ export default class LinearSelection {
    */
   public increment(increase: number, min = this._selections.min(), max = this._selections.max()): void {
     // iterate backwards for proper overwriting behavior
-    const iterator = this._selections.findIter(max);
-    // negative number nodes might come after positive nodes and before null node
-    while(iterator.data() !== null && min <= iterator.data() && iterator.data() <= max) {
-      const index = iterator.data();
-      // move iterator cursor before trying to remove/insert
-      iterator.prev();
-      this._selections.remove(index);
-      this._selections.insert(index + increase);
-    }
+    this._cloneSelections().reach((index: any /*number*/) => {
+      if (min <= index && index <= max) {
+        this._selections.remove(index);
+        this._selections.insert(index + increase);
+      }
+    });
   }
 
 
@@ -170,15 +167,26 @@ export default class LinearSelection {
    */
   public decrement(decrease: number, min = this._selections.min(), max = this._selections.max()): void {
     // iterate forwards for proper overwriting behavior
-    const iterator = this._selections.findIter(min);
-    // negative number nodes might come after positive nodes and before null node
-    while(iterator.data() !== null && min <= iterator.data() && iterator.data() <= max) {
-      const index = iterator.data();
-      // move iterator cursor before trying to remove/insert
-      iterator.next();
-      this._selections.remove(index);
-      this._selections.insert(index - decrease);
-    }
+    this._cloneSelections().each((index: any /*number*/) => {
+      if (min <= index && index <= max) {
+        this._selections.remove(index);
+        this._selections.insert(index - decrease);
+      }
+    });
+  }
+
+
+  private _createSelections(): RBTree<number> {
+    return new RBTree<number>((a: number, b: number) => a - b);
+  }
+
+
+  private _cloneSelections(): RBTree<number> {
+    const clone = this._createSelections();
+    this._selections.each((index: any /*number*/) => {
+      clone.insert(index);
+    });
+    return clone;
   }
 
 
