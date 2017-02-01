@@ -148,14 +148,8 @@ export default class LinearSelection {
    * @param {number} min
    * @param {number} max
    */
-  public increment(increase: number, min = this._selections.min(), max = this._selections.max()): void {
-    // iterate backwards for proper overwriting behavior
-    this._cloneSelections().reach((index: any /*number*/) => {
-      if (min <= index && index <= max) {
-        this._selections.remove(index);
-        this._selections.insert(index + increase);
-      }
-    });
+  public increment(increase: number, min?: number, max?: number): void {
+    this._shift(increase, min, max);
   }
 
 
@@ -165,12 +159,26 @@ export default class LinearSelection {
    * @param {number} min
    * @param {number} max
    */
-  public decrement(decrease: number, min = this._selections.min(), max = this._selections.max()): void {
-    // iterate forwards for proper overwriting behavior
-    this._cloneSelections().each((index: any /*number*/) => {
+  public decrement(decrease: number, min?: number, max?: number): void {
+    this._shift(-decrease, min, max);
+  }
+
+
+  private _shift(amount: number, min = this._selections.min(), max = this._selections.max()): void {
+    if (typeof amount !== 'number') {
+      throw 'increment/decrement amount must be a number';
+    }
+    if (amount === 0) {
+      return;
+    }
+    // For proper overwriting behavior,
+    // iterate backwards if shifting upwards,
+    // iterate forwards if shifting downwards.
+    const iterator = amount > 0 ? 'reach' : 'each';
+    this._cloneSelections()[iterator]((index: any /*number*/) => {
       if (min <= index && index <= max) {
         this._selections.remove(index);
-        this._selections.insert(index - decrease);
+        this._selections.insert(index + amount);
       }
     });
   }
