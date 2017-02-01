@@ -15,6 +15,8 @@ export default class LinearSelection {
     unselect(index: number): boolean;
     increment(increase: number, min?: number, max?: number): void;
     decrement(decrease: number, min?: number, max?: number): void;
+    private _createSelections();
+    private _cloneSelections();
     private _unselectAll(exception?);
     private _click(index, exclusive);
     private _shiftClick(index, exclusive);
