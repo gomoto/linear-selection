@@ -15,6 +15,7 @@ export default class LinearSelection {
     unselect(index: number): boolean;
     increment(increase: number, min?: number, max?: number): void;
     decrement(decrease: number, min?: number, max?: number): void;
+    private _shift(amount, min?, max?);
     private _createSelections();
     private _cloneSelections();
     private _unselectAll(exception?);
