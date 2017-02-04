@@ -6,6 +6,7 @@ export default class LinearSelection {
     constructor(indexes?: number[]);
     reset(): void;
     set(indexes: number[]): void;
+    setRange(min: number, max: number): void;
     touch(index: number, options?: TouchOptions): void;
     readonly min: number;
     readonly max: number;
