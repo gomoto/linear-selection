@@ -57,6 +57,19 @@ export default class LinearSelection {
 
 
   /**
+   * Declare that positions between min and max (inclusive) should be selected.
+   * @param {number} min
+   * @param {number} max
+   */
+  public setRange(min: number, max: number): void {
+    this.reset();
+    for (let i = min; i <= max; i++) {
+      this.select(i);
+    }
+  }
+
+
+  /**
    * Touch a position.
    * @param {number} index
    * @param {TouchOptions} options
