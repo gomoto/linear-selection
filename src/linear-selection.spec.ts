@@ -36,6 +36,19 @@ test('selection can be set from an array of numbers', (assert) => {
   assert.end();
 });
 
+// setRange()
+
+test('selection can be set from a min and max', (assert) => {
+  const selection = new LinearSelection();
+  selection.setRange(1, 3);
+  assert.equal(selection.isSelected(0), false);
+  assert.equal(selection.isSelected(1), true);
+  assert.equal(selection.isSelected(2), true);
+  assert.equal(selection.isSelected(3), true);
+  assert.equal(selection.isSelected(4), false);
+  assert.end();
+});
+
 // touch()
 
 test('simple click should select a position', (assert) => {
