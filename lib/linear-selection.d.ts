@@ -4,6 +4,7 @@ export default class LinearSelection {
     private _touchMode;
     private _pendingPositions;
     constructor(indexes?: number[]);
+    get(): number[];
     reset(): void;
     set(indexes: number[]): void;
     setRange(min: number, max: number): void;
