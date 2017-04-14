@@ -34,6 +34,20 @@ export default class LinearSelection {
 
 
   /**
+   * Get selected positions as a list of numbers.
+   * @return number[]
+   */
+  public get(): number[] {
+    const positions = [] as number[];
+    // TODO: Fix bintrees types.
+    this._selections.each((position: any /* number */) => {
+      positions.push(position);
+    });
+    return positions;
+  }
+
+
+  /**
    * Reset state of this.
    */
   public reset(): void {
