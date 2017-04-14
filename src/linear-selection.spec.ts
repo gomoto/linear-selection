@@ -23,6 +23,15 @@ test('selection can initialize from an array of numbers', (assert) => {
   assert.end();
 });
 
+// get()
+
+test('can get selection as an array of numbers', (assert) => {
+  const selection = new LinearSelection([0, 1, 3]);
+  const selectedPositions = selection.get();
+  assert.deepLooseEqual(selectedPositions, [0, 1, 3]);
+  assert.end();
+});
+
 // set()
 
 test('selection can be set from an array of numbers', (assert) => {
